@@ -146,6 +146,15 @@ button:hover {
   flex-shrink: 0;
 }
 
+.recipe-page img {
+  display: block;
+  margin: 0 auto;       
+  width: 250px;        
+  height: 250px;    
+  border-radius: 50%; 
+  object-fit: cover;   
+}
+
 .recipe-info { flex: 1; }
 
 .recipe-info h3 {
@@ -169,3 +178,14 @@ button:hover {
   font-size: 14px;
   color: #333;
 }
+
+.recipe-info ul, 
+.recipe-info ol {
+  margin: 10px 20px;
+  text-align: left;
+  color: #333;
+}
+.recipe-info li {
+  margin-bottom: 6px;
+}
+

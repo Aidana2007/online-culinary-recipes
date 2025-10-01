@@ -86,11 +86,6 @@ section {
   transition: 0.3s;
 }   
 
-.profile-pic {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-}
 .banner-img {
   width: 300px;
   height: auto;

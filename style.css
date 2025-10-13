@@ -67,6 +67,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 25px;
   padding: 10px 20px;
   position: relative;
   background: linear-gradient(to right, #D3D9E1, #FBEFF2);
@@ -424,6 +425,7 @@ form label {
   .recipe-header {
     gap: 100px;
   }
+
   .recipe-header img {
     width: 30%;
     height: 175px;
@@ -485,6 +487,7 @@ button {
   li {
     font-size: 15px;
   }
+
   .header-section {
     justify-content: space-between;
     align-items: center;
@@ -530,6 +533,7 @@ button {
   .navbar-nav .nav-link {
     padding: 8px 0;
   }
+
   .nav {
     flex-direction: column;
     align-items: center;
@@ -555,6 +559,7 @@ button {
   .recipe-header {
     gap: 40px;
   }
+
   .recipe-header h2 {
     font-size: 18px;
   }
@@ -630,4 +635,22 @@ button {
   height: 300px;
   object-fit: cover;
   transition: transform 0.5s ease;
+}
+
+/* =========================================
+   9. DATATIME STYLE
+========================================= */
+#time {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #D3D9E1, #FBEFF2);
+  color: #333;
+  font-size: 13px;
+  text-align: left;
+  padding: 5px 20px;
+  font-family: Arial, sans-serif;
+  opacity: 0.95;
+  z-index: 1000;
 }

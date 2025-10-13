@@ -10,6 +10,8 @@
 </head>
 
 <body>
+  <div id="time"></div>
+
   <header id="top-banner" class="header-section">
     <div class="logo-container">
       <img src="images/logo.png" alt="Chef's Secret Logo" class="logo">
@@ -31,6 +33,11 @@
     </nav>
   </header>
   <main>
+    <section class="highlighted-text text-center">
+      <h2>Click to Change Background Color</h2>
+      <button class="btn btn-outline-secondary" onclick="changeColor()">Change Color</button>
+    </section>
+
     <section class="highlighted-text">
       <h2>Delicious recipes for every day</h2>
       <p>Discover the secrets of easy and fast cooking with us!</p>
@@ -99,7 +106,7 @@
             <img src="images/chocolatecake.jpg" class="d-block w-100" alt="Chocolate Cake">
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="arouse#recipeCl" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#recipeCarousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon"></span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#recipeCarousel" data-bs-slide="next">
@@ -112,6 +119,8 @@
   <footer id="bottom-footer" class="footer-section">
     <p>© 2025 Chef's Secret | Created by Kuchitarova Kamilla and Maxutova Aidana | </p>
   </footer>
+  
+  <script src="script.js"></script>
 </body>
 
 </html>

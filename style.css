@@ -654,3 +654,93 @@ button {
   opacity: 0.95;
   z-index: 1000;
 }
+
+/* =========================================
+   9. FAQ ACCORDION STYLES
+========================================= */
+.faq-item {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+  cursor: pointer;
+}
+
+.faq-question {
+  font-size: 1.2rem;
+  font-weight: 600;
+  position: relative;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.faq-question::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active {
+  color: #db9898;
+  transform: translateX(5px);
+}
+
+
+.faq-question.active::after {
+  content: '-';
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  color: #333;
+  line-height: 1.6;
+}
+
+.faq-answer.show {
+  padding-top: 10px;
+}
+
+/* ===========================
+   Popup form styles
+=========================== */
+.popup-overlay {
+  display: none;                 
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  position: relative;
+  animation: popupFade 0.3s ease;
+}
+
+@keyframes popupFade {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #007bff;
+}
+

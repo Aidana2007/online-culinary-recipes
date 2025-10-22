@@ -1,6 +1,11 @@
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning, Chef!";
+  if (hour < 18) return "Good afternoon, Chef!";
+  return "Good evening, Chef!";
+}
 function showTime() {
   let now = new Date();
-
   let formatted = now.toLocaleString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -9,10 +14,11 @@ function showTime() {
     month: "long",
     day: "numeric"
   });
-
-  document.getElementById("time").innerHTML = formatted;
+  const timeEl = document.getElementById("time");
+  if (timeEl) {
+    timeEl.innerHTML = `${formatted} | ${getGreeting()}`;
+  }
 }
-
 showTime();
 setInterval(showTime, 1000);
 
@@ -123,11 +129,77 @@ if (popupOverlay && openPopupBtn && closePopupBtn) {
 
   const popupForm = document.getElementById("popupForm");
   popupForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    alert("Thank you for subscribing!");
-    popupForm.reset();
-    popupOverlay.style.display = "none";
+  e.preventDefault();
+
+  const sound = document.getElementById("subscribeSound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch(err => console.log("Autoplay blocked:", err));
+  }
+
+  alert("Thank you for subscribing!");
+
+  popupForm.reset();
+  popupOverlay.style.display = "none";
+});
+
+}
+
+// ==============================
+//  Keyboard Navigation for Menu
+// ==============================
+const links = document.querySelectorAll('.nav-link');
+let index = 0;
+
+function updateActiveLink() {
+  links.forEach((link, i) => {
+    if (i === index) {
+      link.classList.add('active-link');
+      link.focus();
+    } else {
+      link.classList.remove('active-link');
+    }
   });
 }
 
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') {
+    index = (index + 1) % links.length;
+    updateActiveLink();
+  } else if (e.key === 'ArrowLeft') {
+    index = (index - 1 + links.length) % links.length;
+    updateActiveLink();
+  }
+});
 
+updateActiveLink();
+
+
+// ===========================================
+// STAR RATING SYSTEM
+// ===========================================
+document.addEventListener("DOMContentLoaded", () => {
+  const stars = document.querySelectorAll(".star");
+  const ratingMessage = document.getElementById("ratingMessage");
+  let selectedRating = 0;
+
+  stars.forEach((star, index) => {
+    star.addEventListener("mouseover", () => {
+      stars.forEach((s, i) => {
+        s.classList.toggle("hovered", i <= index);
+      });
+    });
+
+    star.addEventListener("mouseout", () => {
+      stars.forEach(s => s.classList.remove("hovered"));
+    });
+    star.addEventListener("click", () => {
+      selectedRating = index + 1;
+      stars.forEach((s, i) => {
+        s.classList.toggle("active", i < selectedRating);
+      });
+      ratingMessage.textContent = `You rated us ${selectedRating} star${selectedRating > 1 ? "s" : ""}! ⭐`;
+      ratingMessage.style.color = "#db9898";
+    });
+  });
+});

@@ -741,6 +741,39 @@ button {
 }
 
 .close-btn:hover {
-  color: #007bff;
+  color: #db9898;
 }
 
+/* ===========================
+   Active link for keyboard nav
+=========================== */
+.active-link {
+  background-color: #BEB9C9 !important;
+  color: white !important;
+  border-radius: 8px;
+  padding: 6px 12px;
+  transition: 0.3s;
+}
+
+/* =========================================
+   STAR RATING STYLES
+========================================= */
+.stars {
+  display: inline-block;
+}
+
+.star {
+  font-size: 2.5rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.star:hover {
+  transform: scale(1.1);
+}
+
+.star.active,
+.star.hovered {
+  color: gold;
+}

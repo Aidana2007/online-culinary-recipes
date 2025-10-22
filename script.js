@@ -31,13 +31,19 @@ function changeColor() {
 // =========================
 //  TASK 1: FORM VALIDATION
 // =========================
+function sendFormData(data, callback) {
+  setTimeout(() => {
+    callback("Message sent successfully!");
+  }, 1000);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
+  const submitBtn = document.getElementById("submitBtn");
 
   form.addEventListener("submit", function (event) {
-    event.preventDefault(); 
+    event.preventDefault();
     let isValid = true;
-
     document.querySelectorAll(".error-message").forEach(el => el.remove());
 
     const name = document.getElementById("name");
@@ -56,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
       isValid = false;
     }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (email.value.trim() === "") {
       showError(email, "Email is required.");
       isValid = false;
@@ -72,36 +78,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isValid) {
       alert("Form submitted successfully!");
-      form.reset();
+
+      const data = {
+        name: name.value,
+        email: email.value,
+        message: message.value
+      };
+
+      sendFormData(data, messageText => {
+        const msg = document.createElement("p");
+        msg.textContent = messageText;
+        msg.style.color = "green";
+        form.appendChild(msg);
+        form.reset();
+      });
     }
   });
-});
-
-// ==============================
-//  FAQ Accordion Logic
-// ==============================
-
-document.querySelectorAll(".faq-question").forEach(question => {
-  question.addEventListener("click", () => {
-    const answer = question.nextElementSibling;
-    const isOpen = answer.classList.contains("show");
-
-    document.querySelectorAll(".faq-answer").forEach(a => {
-      a.style.maxHeight = null;
-      a.classList.remove("show");
-      a.previousElementSibling.classList.remove("active");
+  const clearBtn = document.getElementById("clearBtn");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      document.querySelectorAll("input, textarea").forEach(el => el.value = "");
     });
+  }
 
-    if (!isOpen) {
-      question.classList.add("active"); 
-      answer.classList.add("show");
-      answer.style.maxHeight = answer.scrollHeight + "px";
-    } else {
-      question.classList.remove("active");
-      answer.style.maxHeight = null;
-      answer.classList.remove("show");
-    }
-  });
 });
 
 // ==============================
@@ -129,19 +128,19 @@ if (popupOverlay && openPopupBtn && closePopupBtn) {
 
   const popupForm = document.getElementById("popupForm");
   popupForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const sound = document.getElementById("subscribeSound");
-  if (sound) {
-    sound.currentTime = 0;
-    sound.play().catch(err => console.log("Autoplay blocked:", err));
-  }
+    const sound = document.getElementById("subscribeSound");
+    if (sound) {
+      sound.currentTime = 0;
+      sound.play().catch(err => console.log("Autoplay blocked:", err));
+    }
 
-  alert("Thank you for subscribing!");
+    alert("Thank you for subscribing!");
 
-  popupForm.reset();
-  popupOverlay.style.display = "none";
-});
+    popupForm.reset();
+    popupOverlay.style.display = "none";
+  });
 
 }
 
@@ -203,3 +202,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+// ===========================================
+// STAR ANIMATION ON CLICK
+// ===========================================
+document.addEventListener("DOMContentLoaded", () => {
+  const stars = document.querySelectorAll(".star");
+
+  stars.forEach(star => {
+    star.addEventListener("click", () => {
+      star.style.transform = "scale(1.5)";
+      setTimeout(() => {
+        star.style.transform = "scale(1)";
+      }, 300);
+    });
+  });
+});
+
+
+

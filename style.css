@@ -299,15 +299,34 @@ form label {
   color: #333;
 }
 
-.btn-primary {
-  background-color: #A7B7C5;
-  border: none;
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+  border-width: 2px;
 }
 
-.btn-primary:hover {
-  background-color: #db9898;
+#contactForm input,
+#contactForm textarea {
+  border: 1px solid #ffd6d6;
+  border-radius: 8px;
+  background-color: #fffafc;
   transition: 0.3s;
 }
+
+#contactForm input:focus,
+#contactForm textarea:focus {
+  border-color: #ffb6b9;
+  box-shadow: 0 0 8px rgba(255, 182, 185, 0.4);
+}
+
+#formNotification {
+  background-color: #e8fff3;
+  border: 1px solid #b7e0b6;
+  color: #333;
+  border-radius: 8px;
+}
+
+
 
 /* =========================================
    6. FOOTER
@@ -371,6 +390,21 @@ form label {
   color: #333;
   font-family: 'Times New Roman', Times, serif;
 }
+
+.lazy {
+  filter: blur(3px);
+  opacity: 0.9;
+  transform: scale(0.98);
+  transition: filter 0.8s ease, opacity 0.8s ease, transform 0.8s ease;
+}
+
+.lazy.loaded {
+  filter: blur(0);
+  opacity: 1;
+  transform: scale(1);
+}
+
+
 
 /* =========================================
    7. RESPONSIVE DESIGN
@@ -656,7 +690,7 @@ button {
 }
 
 /* =========================================
-   9. FAQ ACCORDION STYLES
+   10. FAQ ACCORDION STYLES
 ========================================= */
 .faq-item {
   border-bottom: 1px solid #ddd;
@@ -776,4 +810,15 @@ button {
 .star.active,
 .star.hovered {
   color: gold;
+}
+
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 8px;
+  width: 0%;
+  background: linear-gradient(90deg, #ffc1cc, #ffe5ec, #fff8f0);
+  z-index: 9999;
+  transition: width 0.2s ease;
 }

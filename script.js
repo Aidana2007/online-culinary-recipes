@@ -1,3 +1,134 @@
+// =======================
+// Task 0. Setup
+// =======================
+$(document).ready(function () {
+  console.log("jQuery is ready!");
+
+  // =======================
+  // Task 1. Real-time Search and Live Filter
+  // =======================
+  $("#searchInput").on("keyup", function () {
+    let value = $(this).val().toLowerCase();
+    $(".search-item").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+  });
+
+  // =======================
+  // Task 2. Autocomplete Search Suggestions
+  // =======================
+  const items = [
+    "Breakfast",
+    "Lunch",
+    "Drinks",
+    "Salad",
+    "Dessert",
+    "Apple Slush",
+    "Borscht",
+    "Caesar Salad",
+    "Caprese Salad",
+    "Cheese Omelette",
+    "Cherry Tart",
+    "Chocolate Cake",
+    "Latte",
+    "Martini",
+    "Olivye Salad",
+    "Pancakes",
+    "Pepperoni Pizza",
+    "Pesto Pasta",
+    "Tiramisu",
+    "Toast with Eggs",
+  ];
+
+  $("#searchInput").on("input", function () {
+    const query = $(this).val().toLowerCase();
+    const suggestionBox = $("#suggestions");
+    suggestionBox.empty(); 
+
+    if (query.length === 0) return;
+
+    const matched = items.filter(item => item.toLowerCase().includes(query));
+
+    matched.forEach(match => {
+      suggestionBox.append(`<div class="suggestion-item">${match}</div>`);
+    });
+  });
+
+  $(document).on("click", ".suggestion-item", function () {
+    $("#searchInput").val($(this).text());
+    $("#suggestions").empty();
+  });
+
+// ----------------------------
+// Task 4: Scroll Progress Bar
+// ----------------------------
+  $(window).on('scroll', function() {
+    let scrollTop = $(window).scrollTop();
+    let docHeight = $(document).height() - $(window).height();
+    let scrollPercent = (scrollTop / docHeight) * 100;
+    $('#scrollProgress').css('width', scrollPercent + '%');
+  });
+
+
+// ----------------------------
+// Task 6: Loading Spinner on Submit
+// ----------------------------
+  $(document).ready(function() {
+    $('form').on('submit', function(e) {
+      e.preventDefault();
+      const $btn = $('#submitBtn');
+
+      if ($btn.prop('disabled')) return;
+
+      const originalText = $btn.html();
+      $btn.prop('disabled', true);
+      $btn.html('<span class="spinner-border spinner-border-sm me-2" role="status"></span>Please wait...');
+
+      setTimeout(() => {
+        $btn.prop('disabled', false);
+        $btn.html(originalText);
+        alert('Form submitted successfully!');
+      }, 2000);
+    });
+  });
+
+  $('#contactForm').on('submit', function(e) {
+    e.preventDefault();
+
+    const $btn = $('#submitBtn');
+    const originalText = $btn.text();
+
+    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span> Please wait...');
+
+    setTimeout(function() {
+      $btn.prop('disabled', false).text(originalText);
+      $('#formNotification').fadeIn(400).delay(2000).fadeOut(400);
+      $('#contactForm')[0].reset();
+    }, 2000);
+  });
+
+  $('#clearBtn').on('click', function() {
+    $('#contactForm')[0].reset();
+  });
+
+// =============================
+// TASK 9: Lazy Loading Images
+// =============================
+  $(window).on('scroll', function() {
+    $('img.lazy').each(function() {
+      const img = $(this);
+      if (img.attr('data-src') && img.offset().top < $(window).scrollTop() + $(window).height() + 200) {
+        img.attr('src', img.data('src'));
+        img.removeAttr('data-src');
+        img.on('load', function() {
+          img.addClass('loaded');
+        });
+      }
+    });
+  });
+});
+
+
 function getGreeting() {
   const hour = new Date().getHours();
   if (hour < 12) return "Good morning, Chef!";
@@ -101,6 +232,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+});
+
+// ==============================
+//  FAQ Accordion Logic
+// ==============================
+
+document.querySelectorAll(".faq-question").forEach(question => {
+  question.addEventListener("click", () => {
+    const answer = question.nextElementSibling;
+    const isOpen = answer.classList.contains("show");
+
+    document.querySelectorAll(".faq-answer").forEach(a => {
+      a.style.maxHeight = null;
+      a.classList.remove("show");
+      a.previousElementSibling.classList.remove("active");
+    });
+
+    if (!isOpen) {
+      question.classList.add("active"); 
+      answer.classList.add("show");
+      answer.style.maxHeight = answer.scrollHeight + "px";
+    } else {
+      question.classList.remove("active");
+      answer.style.maxHeight = null;
+      answer.classList.remove("show");
+    }
+  });
 });
 
 // ==============================

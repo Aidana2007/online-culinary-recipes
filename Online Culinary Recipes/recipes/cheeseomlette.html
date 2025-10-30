@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheese Omelette Recipe</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div id="time"></div>
+
+    <header id="top-banner" class="header-section">
+        <div class="logo-container">
+            <img src="../images/logo.png" alt="Chef's Secret Logo" class="logo">
+        </div>
+        <h1>Chef's Secret</h1>
+        <nav class="navbar navbar-expand-lg p-0">
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto navbar-nav-custom">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../FAQ.html">Questions</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="recipe-grid">
+        <header class="recipe-header">
+            <img src="../images/cheeseomelette.jpg" alt="cheeseomelette">
+            <h2>Cheese omelette</h2>
+            <p>This cheese omelette is great for breakfast.</p>
+        </header>
+
+        <aside class="recipe-sidebar">
+            <h3>Ingredients</h3>
+            <ul>
+                <li>3 large eggs</li>
+                <li>1 tablespoon milk, or as needed</li>
+                <li>salt and freshly ground white pepper to taste</li>
+                <li>2 tablespoons butter</li>
+                <li>¼ cup shredded Emmentaler cheese</li>
+            </ul>
+            <button id="copyIngredientsBtn" class="btn btn-outline-secondary mt-3">
+                Copy Ingredients
+            </button>
+
+            <div id="copyTooltip" class="mt-2 text-success" style="display:none;">
+                Copied to clipboard!
+            </div>
+        </aside>
+
+        <main class="recipe-main">
+            <div class="info-boxes">
+                <div class="info-box">
+                    <h3>Portions</h3>
+                    <p>1 servings</p>
+                </div>
+                <div class="info-box">
+                    <h3>Cooking Time</h3>
+                    <p>10 minutes</p>
+                </div>
+            </div>
+
+            <section class="cooking-instructions">
+                <h3>Instructions</h3>
+                <ol>
+                    <li>Whisk eggs in a bowl; add milk and season with salt and white pepper.</li>
+                    <li>Whisk until egg mixture is foamy, 2 to 3 minutes.</li>
+                    <li>Melt butter in a small, nonstick skillet over medium-low heat.</li>
+                    <li>Pour in egg mixture and swirl the skillet, so the bottom is evenly covered with egg. </li>
+                    <li>Cook until egg starts to set, about 1 minute. </li>
+                    <li>Lift edges with a spatula and tilt the skillet so uncooked egg can flow towards the bottom of
+                        the skillet to set.</li>
+                    <li>Repeat until no visible liquid egg remains.</li>
+                    <li>Carefully flip omelette; cook until warmed through, 30 seconds to 1 minute.</li>
+                    <li>Sprinkle Emmentaler cheese down the middle of omelette; fold in half.</li>
+                </ol>
+
+            </section>
+        </main>
+
+        <footer class="recipe-footer">
+            <p>Chef's Secret - Online Culinary Recipes</p>
+            <p>Created by: Aidana Maxutova & Kamilla Kuchitarova</p>
+        </footer>
+    </div>
+
+    <div class="center-link">
+        <p><a href="../index.html">← Back to Recipes</a></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+</body>
+
+</html>

@@ -15,11 +15,19 @@
 
   <div id="time"></div>
 
-  <header id="top-banner" class="header-section">
-    <div class="logo-container">
+  <header id="top-banner" class="header-section d-flex align-items-center justify-content-between px-3">
+  <div class="d-flex align-items-center">
+    <div class="logo-container me-3">
       <img src="images/logo.png" alt="Chef's Secret Logo" class="logo">
     </div>
-    <h1>Chef's Secret</h1>
+    <h1 class="m-0">Chef's Secret</h1>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <button id="themeToggle" class="btn btn-outline-secondary me-3" title="Toggle Dark/Light Mode">
+      Light/Dark
+    </button>
+
     <nav class="navbar navbar-expand-lg p-0">
       <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
         aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +43,27 @@
         </ul>
       </div>
     </nav>
-  </header>
+  </div>
+</header>
+
+  <section id="stats" class="text-center mt-5">
+    <h2>Our Culinary Community</h2>
+    <div class="d-flex justify-content-around mt-4">
+      <div>
+        <h3 class="counter" data-target="1200">0</h3>
+        <p>Recipes Shared</p>
+      </div>
+      <div>
+        <h3 class="counter" data-target="350">0</h3>
+        <p>Professional Chefs</p>
+      </div>
+      <div>
+        <h3 class="counter" data-target="5000">0</h3>
+        <p>Happy Users</p>
+      </div>
+    </div>
+  </section>
+
   <main>
     <section class="highlighted-text text-center">
       <h2>Click to Change Background Color</h2>
@@ -50,7 +78,8 @@
     <section class="container my-5 text-center">
       <h2>Search Recipes</h2>
 
-      <input type="text" id="searchInput" class="form-control mx-auto" style="max-width:400px;" placeholder="Search for recipes...">
+      <input type="text" id="searchInput" class="form-control mx-auto" style="max-width:400px;"
+        placeholder="Search for recipes...">
       <div id="suggestions" class="mt-2"></div>
 
       <button id="highlightBtn" class="btn btn-secondary mt-3">Highlight Matches</button>
@@ -163,11 +192,12 @@
       </form>
     </div>
   </div>
+  
 
   <footer id="bottom-footer" class="footer-section">
     <p>© 2025 Chef's Secret | Created by Kuchitarova Kamilla and Maxutova Aidana | </p>
   </footer>
-  
+
   <script src="script.js"></script>
   <audio id="subscribeSound" src="sounds/click.mp3" preload="auto"></audio>
 </body>

@@ -3,60 +3,98 @@
 // =======================
 $(document).ready(function () {
   console.log("jQuery is ready!");
+  // =======================
+  // Search
+  // =======================
+  $(function () {
+    const recipes = [
+      { name: "Breakfast", file: "breakfast.html" },
+      { name: "Lunch", file: "lunch.html" },
+      { name: "Drinks", file: "drinks.html" },
+      { name: "Salad", file: "salad.html" },
+      { name: "Dessert", file: "dessert.html" },
+      { name: "Apple Slush", file: "recipes/appleslushRecipe.html" },
+      { name: "Borscht", file: "recipes/borschtRecipe.html" },
+      { name: "Caesar Salad", file: "recipes/caesarRecipe.html" },
+      { name: "Caprese Salad", file: "recipes/capreseRecipe.html" },
+      { name: "Cheese Omelette", file: "recipes/cheeseomelette.html" },
+      { name: "Cherry Tart", file: "recipes/cherrytartrecipe.html" },
+      { name: "Chocolate Cake", file: "recipes/chocolateCakeRecipe.html" },
+      { name: "Latte", file: "recipes/latteRecipe.html" },
+      { name: "Martini", file: "recipes/martiniRecipe.html" },
+      { name: "Olivye Salad", file: "recipes/olivyeRecipe.html" },
+      { name: "Pancakes", file: "recipes/pancakesRecipe.html" },
+      { name: "Pepperoni Pizza", file: "recipes/pepperonipizzaRecipe.html" },
+      { name: "Pesto Pasta", file: "recipes/pestopastaRecipe.html" },
+      { name: "Tiramisu", file: "recipes/tiramisuRecipe.html" },
+      { name: "Toast with Eggs", file: "recipes/toastswitheggsRecipe.html" }
+    ];
 
-  // =======================
-  // Real-time Search and Live Filter
-  // =======================
-  $("#searchInput").on("keyup", function () {
-    let value = $(this).val().toLowerCase();
-    $(".search-item").filter(function () {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+
+    function norm(str) {
+      return String(str || "").trim().toLowerCase();
+    }
+
+    function findRecipe(query) {
+      const q = norm(query);
+      if (!q) return null;
+
+      let found = recipes.find(r => norm(r.name) === q);
+      if (found) return found;
+
+      found = recipes.find(r => norm(r.name).includes(q));
+      if (found) return found;
+
+      found = recipes.find(r => norm(r.name).startsWith(q));
+      if (found) return found;
+
+      return null;
+    }
+
+    $("#searchInput").on("input", function () {
+      const query = norm(this.value);
+      const suggestionBox = $("#suggestions");
+      suggestionBox.empty();
+
+      if (!query) return;
+
+      const matches = recipes
+        .filter(r => norm(r.name).includes(query))
+        .slice(0, 10);
+
+      matches.forEach(m => {
+        suggestionBox.append(`<div class="suggestion-item" data-file="${m.file}">${m.name}</div>`);
+      });
     });
-  });
 
-  // =======================
-  // Autocomplete Search Suggestions
-  // =======================
-  const items = [
-    "Breakfast",
-    "Lunch",
-    "Drinks",
-    "Salad",
-    "Dessert",
-    "Apple Slush",
-    "Borscht",
-    "Caesar Salad",
-    "Caprese Salad",
-    "Cheese Omelette",
-    "Cherry Tart",
-    "Chocolate Cake",
-    "Latte",
-    "Martini",
-    "Olivye Salad",
-    "Pancakes",
-    "Pepperoni Pizza",
-    "Pesto Pasta",
-    "Tiramisu",
-    "Toast with Eggs",
-  ];
+    $(document).on("click", ".suggestion-item", function () {
+      const name = $(this).text();
+      const file = $(this).data("file");
+      $("#searchInput").val(name);
+      $("#suggestions").empty();
 
-  $("#searchInput").on("input", function () {
-    const query = $(this).val().toLowerCase();
-    const suggestionBox = $("#suggestions");
-    suggestionBox.empty();
-
-    if (query.length === 0) return;
-
-    const matched = items.filter(item => item.toLowerCase().includes(query));
-
-    matched.forEach(match => {
-      suggestionBox.append(`<div class="suggestion-item">${match}</div>`);
+      if (file) {
+        window.location.href = file;
+      }
     });
-  });
 
-  $(document).on("click", ".suggestion-item", function () {
-    $("#searchInput").val($(this).text());
-    $("#suggestions").empty();
+    $("#searchBtn").on("click", function () {
+      const query = $("#searchInput").val();
+      const recipe = findRecipe(query);
+      if (recipe && recipe.file) {
+        window.location.href = recipe.file;
+      } else {
+        alert("Recipe not found. Please try another search.");
+        console.log("Search not found for:", query);
+      }
+    });
+
+    $("#searchInput").on("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        $("#searchBtn").trigger("click");
+      }
+    });
   });
 
   // =============================
@@ -186,19 +224,38 @@ $(document).ready(function () {
   // =============================
   // Lazy Loading Images
   // =============================
-  $(window).on('scroll', function () {
-    $('img.lazy').each(function () {
-      const img = $(this);
-      if (img.attr('data-src') && img.offset().top < $(window).scrollTop() + $(window).height() + 200) {
-        img.attr('src', img.data('src'));
-        img.removeAttr('data-src');
-        img.on('load', function () {
-          img.addClass('loaded');
-        });
-      }
+
+  $(document).ready(function () {
+    function loadVisibleImages() {
+      const viewportBottom = $(window).scrollTop() + $(window).height() + 100;
+
+      $('img.lazy[data-src]').each(function () {
+        const img = $(this);
+        const imgTop = img.offset().top;
+
+        // Загружаем только ту картинку, которая попала в зону видимости
+        if (imgTop < viewportBottom) {
+          const dataSrc = img.attr('data-src');
+          if (dataSrc) {
+            img.attr('src', dataSrc);
+            img.removeAttr('data-src');
+            img.on('load', function () {
+              img.addClass('loaded');
+            });
+            // Прерываем цикл, чтобы загружать по одной
+            return false;
+          }
+        }
+      });
+    }
+
+    // Загружаем только при прокрутке
+    $(window).on('scroll', function () {
+      loadVisibleImages();
     });
   });
-});
+
+
 
 
   // =========================
@@ -442,3 +499,53 @@ $(document).ready(function () {
       }, 2000);
     });
   });
+})
+
+
+const stars = document.querySelectorAll('.star');
+  const ratingSection = document.querySelector('.rating-container');
+  const ratingText = document.getElementById('ratingText');
+  let selectedRating = 0;
+
+  // Появление при скролле
+  window.addEventListener('scroll', () => {
+    const rect = ratingSection.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      ratingSection.classList.add('visible');
+
+      // анимация звёзд по очереди
+      stars.forEach((star, index) => {
+        setTimeout(() => star.classList.add('visible'), index * 150);
+      });
+    }
+  });
+
+  // Реакция на клик и наведение
+  stars.forEach(star => {
+    star.addEventListener('mouseover', () => {
+      resetStars();
+      highlightStars(star.dataset.value);
+    });
+
+    star.addEventListener('mouseout', () => {
+      resetStars();
+      if (selectedRating > 0) highlightStars(selectedRating);
+    });
+
+    star.addEventListener('click', () => {
+      selectedRating = star.dataset.value;
+      ratingText.textContent = `You rated ${selectedRating} out of 5 ⭐`;
+      resetStars();
+      highlightStars(selectedRating);
+    });
+  });
+
+  function highlightStars(rating) {
+    stars.forEach(s => {
+      if (s.dataset.value <= rating) s.classList.add('selected');
+    });
+  }
+
+  function resetStars() {
+    stars.forEach(s => s.classList.remove('selected'));
+  }

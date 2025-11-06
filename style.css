@@ -47,7 +47,7 @@ p {
 }
 
 .highlight {
-  background-color: yellow;
+  background-color: rgb(215, 216, 117);
   font-weight: bold;
 }
 
@@ -56,7 +56,7 @@ p {
 ========================================= */
 #top-banner {
   background-color: #f0f0f0;
-  padding: 20px;
+  padding: 25px;
 }
 
 header {
@@ -408,6 +408,22 @@ img.lazy.loaded {
 }
 
 
+/* =========================================
+   CAROUSEL STYLES
+========================================= */
+.carousel {
+  max-width: 500px;
+  margin: 20px auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.carousel img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
 
 /* =========================================
    CAROUSEL STYLES
@@ -425,9 +441,35 @@ img.lazy.loaded {
   object-fit: cover;
   transition: transform 0.5s ease;
 }
+
 /* =========================================
    RESPONSIVE DESIGN
 ========================================= */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .header-section h1 {
+    font-size: 20px;
+    margin: 0 20px;
+  }
+  
+  .header-section {
+    padding: 12px 25px;
+    gap: 20px;
+  }
+  
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .navbar-nav {
+    gap: 7px;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 14px;
+    padding: 5px 8px;
+  }
+}
 
 @media (max-width: 768px) {
   h1 {
@@ -545,7 +587,8 @@ img.lazy.loaded {
   .header-section {
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
+    padding: 10px 15px;
+    gap: 8px;
   }
 
   .logo {
@@ -557,7 +600,7 @@ img.lazy.loaded {
     font-size: 16px;
     position: static;
     transform: none;
-    margin: 0;
+    margin: 0 10px;
     text-align: center;
     flex: 1;
   }
@@ -611,7 +654,7 @@ img.lazy.loaded {
   }
 
   .recipe-header {
-    gap: 40px;
+    gap: 20px;
   }
 
   .recipe-header h2 {
@@ -636,8 +679,8 @@ img.lazy.loaded {
   }
 
   .recipe-header img {
-    width: 35%;
-    height: 115px;
+    width: 80px;
+    height: 80px;
     border-radius: 10px;
   }
 
@@ -672,8 +715,30 @@ img.lazy.loaded {
   .carousel img {
     height: 150px;
   }
-}
 
+  .header-section> :first-child {
+    margin-right: auto;
+  }
+
+  .header-section> :last-child {
+    margin-left: auto;
+  }
+
+  .navbar-toggler,
+  .theme-toggle-container button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 5vw;
+  }
+  .logo-container,
+  .logo {
+    display: none;
+  }
+}
 
 
 /* =========================================
@@ -878,26 +943,31 @@ body.dark-mode {
   background-color: #2e1d12;
   color: #f6e6c3;
 }
-body.dark-mode #time{
+
+body.dark-mode #time {
   background: #3b2314;
   color: #f6e6c3;
   border-bottom: 2px solid #24170a;
 }
+
 body.dark-mode section {
   background-color: #4a2e1a;
   color: #f6e6c3;
   border: 1px solid #b87333;
 }
-body.dark-mode header{
+
+body.dark-mode header {
   background: linear-gradient(to right, #42220d, #4a2e1a);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   border-bottom: 2px solid #352211;
 }
-body.dark-mode footer{
+
+body.dark-mode footer {
   background: linear-gradient(to right, #42220d, #4a2e1a);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   border-top: 2px solid #352211;
 }
+
 body.dark-mode .nav-link {
   color: #f6e6c3 !important;
 }
@@ -905,16 +975,19 @@ body.dark-mode .nav-link {
 body.dark-mode .nav-link:hover {
   color: #ffcb7f !important;
 }
-body.dark-mode p{
+
+body.dark-mode p {
   color: #f6e6c3;
-}  
+}
 
 body.dark-mode #stats {
   background-color: #3b2314;
 }
+
 body.dark-mode ::placeholder {
-  color: #d4b483 ;
+  color: #d4b483;
 }
+
 body.dark-mode .btn {
   background-color: #5a3921;
   color: #f6e6c3;
@@ -953,7 +1026,7 @@ body.dark-mode .list-group-item {
 body.dark-mode .highlight-area {
   background-color: #4a2e1a;
   color: #f6e6c3;
-  border: 1px solid #b87333;
+  border: 1px solid #b87333 !important;
 }
 
 body.dark-mode .popup-box {
@@ -973,7 +1046,6 @@ body.dark-mode button:hover {
 }
 
 .dark-mode .navbar-nav .nav-link {
-  background-color: #555;
   color: #f0f0f0;
 }
 
@@ -981,17 +1053,97 @@ body.dark-mode button:hover {
   color: #ffd700;
 }
 
+.dark-mode #contactForm {
+  background-color: #68442a;
+  color: #f6e6c3;
+  border: 1px solid #b87333;
+}
+.dark-mode #contactForm input{
+  background-color: #5a3921;
+  color: #f6e6c3;
+  border: 1px solid #b87333;
+}
+.dark-mode #contactForm textarea{
+  background-color: #5a3921;
+  color: #f6e6c3;
+  border: 1px solid #b87333;
+}
+.dark-mode #contactForm label{
+  color: #f6e6c3;
+}
+.dark-mode .faq-item{
+  border-bottom: 1px solid #b87333;
+}
+.dark-mode .faq-question{
+  color: #f6e6c3;
+}
+.dark-mode .team-card{
+  background: #784f32;
+}
+.dark-mode .team-card .card-title{
+  color: #f6e6c3;
+}
+.dark-mode #popupForm{
+  background-color: #69452e;
+  color: #f6e6c3;
+}
+.dark-mode #popupForm label{
+  color: #f6e6c3;
+}
+.dark-mode .active-link {
+  background-color: #ffb74d !important;
+  color: #333 !important;
+}
+.dark-mode .recipe-sidebar{
+  background: #5a3921;
+  color: #f6e6c3;
+}
+.dark-mode .info-box{
+  background: #5a3921;
+  color: #f6e6c3;
+}
+.dark-mode .center-link a{
+  color: #ffcb7f;
+}
+.dark-mode .navbar-collapse{
+  background: #4a2e1a;
+}
+.dark-mode h3{
+  color: #f6e6c3;
+}
+.dark-mode .highlight {
+  background-color: rgb(180, 150, 60);
+}
 /* =========================================
    Search
 ========================================= */
 
 #searchBtn {
-  background-color: #db9898; 
+  background-color: #db9898;
   border: none;
   color: white;
   transition: background-color 0.3s ease;
 }
 
 #searchBtn:hover {
-  background-color: #BEB9C9; 
+  background-color: #BEB9C9;
+}
+
+/* =========================================
+   SCROLL PROGRESS BAR
+========================================= */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(to right, #db9898, #BEB9C9);
+  z-index: 9999;
+  transition: width 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #scrollProgress {
+  background: linear-gradient(to right, #ffcb7f, #b87333);
 }

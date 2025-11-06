@@ -11,60 +11,78 @@
 </head>
 
 <body>
+  <div id="scrollProgress"></div>
+
   <div id="time"></div>
 
-  <header id="top-banner" class="header-section">
-    <div class="logo-container">
-      <img src="images/logo.png" alt="Chef's Secret Logo" class="logo">
+  <header id="top-banner" class="header-section d-flex align-items-center justify-content-between px-3">
+    <div class="d-flex align-items-center">
+      <div class="logo-container me-3">
+        <img src="images/logo.png" alt="Chef's Secret Logo" class="logo">
+      </div>
+      <h1 class="m-0">Chef's Secret</h1>
     </div>
-    <h1>Chef's Secret</h1>
-    <nav class="navbar navbar-expand-lg p-0">
-      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+
+    <div class="d-flex align-items-center">
+      <button id="themeToggle" class="btn btn-outline-secondary me-3" title="Toggle Dark/Light Mode">
+        Light/Dark
       </button>
 
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto navbar-nav-custom">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="FAQ.html">Questions</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+      <nav class="navbar navbar-expand-lg p-0">
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto navbar-nav-custom">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="FAQ.html">Questions</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
   <section class="container my-5">
     <h2 class="text-center mb-4">Frequently Asked Questions</h2>
 
+    <div class="text-center mb-4">
+      <input type="text" id="searchInput" class="form-control mx-auto mb-2" style="max-width:400px;" 
+             placeholder="Search for keywords in FAQs...">
+      <button id="highlightBtn" class="btn btn-primary">Highlight Matches</button>
+    </div>
+    
     <div class="faq">
       <div class="faq-item">
         <h3 class="faq-question">What is Chef's Secret?</h3>
-          <p class="faq-answer">
-            Chef's Secret is a platform that shares delicious recipes and cooking tips from top chefs around the world.
-          </p>
+        <p class="faq-answer">
+          Chef's Secret is a platform that shares delicious recipes and cooking tips from top chefs around the world.
+        </p>
       </div>
 
       <div class="faq-item">
         <h3 class="faq-question">How often are new recipes added?</h3>
-          <p class="faq-answer">
-            We update our recipe collection every week with new dishes, techniques, and cooking hacks.
-          </p>
+        <p class="faq-answer">
+          We update our recipe collection every week with new dishes, techniques, and cooking hacks.
+        </p>
       </div>
 
       <div class="faq-item">
         <h3 class="faq-question">Do I need to sign up to access recipes?</h3>
-          <p class="faq-answer">
-            No sign-up is required for most recipes. However, creating an account lets you save your favorites and get personalized suggestions.
-          </p>
+        <p class="faq-answer">
+          No sign-up is required for most recipes. However, creating an account lets you save your favorites and get
+          personalized suggestions.
+        </p>
       </div>
 
       <div class="faq-item">
         <h3 class="faq-question">Can I submit my own recipes?</h3>
-          <p class="faq-answer">
-            Absolutely! You can share your own recipes with our community by submitting them through the “Contact Us” form.
-          </p>
+        <p class="faq-answer">
+          Absolutely! You can share your own recipes with our community by submitting them through the “Contact Us”
+          form.
+        </p>
       </div>
     </div>
   </section>

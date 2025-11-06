@@ -314,7 +314,6 @@ form label {
 #contactForm textarea {
   border: 1px solid #ffd6d6;
   border-radius: 8px;
-  background-color: #fffafc;
   transition: 0.3s;
 }
 
@@ -330,9 +329,6 @@ form label {
   color: #333;
   border-radius: 8px;
 }
-
-
-
 /* =========================================
    6. FOOTER
 ========================================= */

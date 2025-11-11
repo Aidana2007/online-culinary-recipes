@@ -13,7 +13,8 @@ $(document).ready(function () {
     { name: "Dessert", file: "dessert.html" },
     { name: "Apple Slush", file: "recipes/appleslushRecipe.html" },
     { name: "Borscht", file: "recipes/borschtRecipe.html" },
-    { name: "Caesar Salad", file: "recipes/caesarRecipe.html" },
+    // filename in the repo is spelled "caeserRecipe.html" (typo in file name), match it here
+    { name: "Caesar Salad", file: "recipes/caeserRecipe.html" },
     { name: "Caprese Salad", file: "recipes/capreseRecipe.html" },
     { name: "Cheese Omelette", file: "recipes/cheeseomelette.html" },
     { name: "Cherry Tart", file: "recipes/cherrytartrecipe.html" },
@@ -194,40 +195,38 @@ $(document).ready(function () {
     const clearBtn = document.getElementById("clearBtn");
     const notification = document.getElementById("formNotification");
 
-    function showError(input, message) {
-      const err = document.createElement("div");
-      err.className = "error-message text-danger mt-1";
-      err.textContent = message;
-      const next = input.nextElementSibling;
-      if (next && next.classList.contains("error-message")) next.remove();
-      input.insertAdjacentElement("afterend", err);
+    function markError(input, hasError) {
+      if (hasError) {
+        input.style.border = "2px solid red";
+        input.style.outline = "none";
+      } else {
+        input.style.border = "";
+      }
     }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      document.querySelectorAll(".error-message").forEach(el => el.remove());
-
       const name = form.querySelector("#name");
       const email = form.querySelector("#email");
       const message = form.querySelector("#message");
       let isValid = true;
 
+      // Сброс предыдущих стилей
+      [name, email, message].forEach(i => markError(i, false));
+
       if (name.value.trim() === "") {
-        showError(name, "Name is required.");
+        markError(name, true);
         isValid = false;
       }
 
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (email.value.trim() === "") {
-        showError(email, "Email is required.");
-        isValid = false;
-      } else if (!emailPattern.test(email.value.trim())) {
-        showError(email, "Please enter a valid email address.");
+      if (email.value.trim() === "" || !emailPattern.test(email.value.trim())) {
+        markError(email, true);
         isValid = false;
       }
 
       if (message.value.trim() === "") {
-        showError(message, "Message cannot be empty.");
+        markError(message, true);
         isValid = false;
       }
 
@@ -235,7 +234,8 @@ $(document).ready(function () {
 
       const originalHTML = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Please wait...';
+      submitBtn.innerHTML =
+        '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Please wait...';
 
       setTimeout(() => {
         submitBtn.disabled = false;
@@ -250,9 +250,10 @@ $(document).ready(function () {
     clearBtn.addEventListener("click", e => {
       e.preventDefault();
       form.reset();
-      document.querySelectorAll(".error-message").forEach(el => el.remove());
+      form.querySelectorAll("input, textarea").forEach(i => (i.style.border = ""));
     });
   }
+
 
 
 
@@ -446,51 +447,6 @@ $(document).ready(function () {
 
   updateActiveLink();
 
-
-  // ===========================================
-  // STAR RATING SYSTEM
-  // ===========================================
-  document.addEventListener("DOMContentLoaded", () => {
-    const stars = document.querySelectorAll(".star");
-    const ratingMessage = document.getElementById("ratingMessage");
-    let selectedRating = 0;
-
-    stars.forEach((star, index) => {
-      star.addEventListener("mouseover", () => {
-        stars.forEach((s, i) => {
-          s.classList.toggle("hovered", i <= index);
-        });
-      });
-
-      star.addEventListener("mouseout", () => {
-        stars.forEach(s => s.classList.remove("hovered"));
-      });
-      star.addEventListener("click", () => {
-        selectedRating = index + 1;
-        stars.forEach((s, i) => {
-          s.classList.toggle("active", i < selectedRating);
-        });
-        ratingMessage.textContent = `You rated us ${selectedRating} star${selectedRating > 1 ? "s" : ""}! ⭐`;
-        ratingMessage.style.color = "#db9898";
-      });
-    });
-  });
-  // ===========================================
-  // STAR ANIMATION ON CLICK
-  // ===========================================
-  document.addEventListener("DOMContentLoaded", () => {
-    const stars = document.querySelectorAll(".star");
-
-    stars.forEach(star => {
-      star.addEventListener("click", () => {
-        star.style.transform = "scale(1.5)";
-        setTimeout(() => {
-          star.style.transform = "scale(1)";
-        }, 300);
-      });
-    });
-  });
-
   // ==============================
   // COPY INGREDIENTS TO CLIPBOARD
   // ============================== 
@@ -519,52 +475,210 @@ $(document).ready(function () {
 });
 
 // ===========================================
-// STAR RATING ON SCROLL INTO VIEW
+// STAR RATING SYSTEM (CLEAN + SAVES RATING)
 // ===========================================
+document.addEventListener("DOMContentLoaded", () => {
+  // Guard: only run rating code if the rating container exists on the page
+  const container = document.querySelector(".rating-container");
+  if (!container) return;
 
-const stars = document.querySelectorAll('.star');
-const ratingSection = document.querySelector('.rating-container');
-const ratingText = document.getElementById('ratingText');
-let selectedRating = 0;
+  const stars = container.querySelectorAll(".star");
+  const ratingMessage = container.querySelector("#ratingMessage") || document.getElementById("ratingMessage");
+  let selectedRating = parseInt(localStorage.getItem("userRating"), 10) || 0;
 
-window.addEventListener('scroll', () => {
-  if (!ratingSection) return;
+  // Плавное появление блока при загрузке
+  setTimeout(() => container.classList.add("visible"), 300);
 
-  const rect = ratingSection.getBoundingClientRect();
-  if (rect.top < window.innerHeight - 100) {
-    ratingSection.classList.add('visible');
+  // Если ранее была выставлена оценка — восстановим
+  if (selectedRating > 0) {
+    highlightStars(selectedRating);
+    if (ratingMessage) {
+      ratingMessage.textContent = `You rated us ${selectedRating} star${selectedRating > 1 ? "s" : ""}! ⭐`;
+      ratingMessage.style.color = "#db9898";
+    }
+  }
 
-    stars.forEach((star, index) => {
-      setTimeout(() => star.classList.add('visible'), index * 150);
+  // Наведение и клик по звёздам
+  stars.forEach((star, index) => {
+    star.addEventListener("mouseover", () => highlightStars(index + 1));
+
+    star.addEventListener("mouseout", () => highlightStars(selectedRating));
+
+    star.addEventListener("click", () => {
+      selectedRating = index + 1;
+      localStorage.setItem("userRating", selectedRating);
+
+      highlightStars(selectedRating);
+      if (ratingMessage) {
+        ratingMessage.textContent = `You rated us ${selectedRating} star${selectedRating > 1 ? "s" : ""}! ⭐`;
+        ratingMessage.style.color = "#db9898";
+      }
+
+      // Анимация клика
+      star.style.transform = "scale(1.5)";
+      setTimeout(() => (star.style.transform = "scale(1)"), 300);
+    });
+
+    // Анимация появления звёзд
+    setTimeout(() => star.classList.add("visible"), 200 * (index + 1));
+  });
+
+  // Подсветка звёзд
+  function highlightStars(rating) {
+    stars.forEach((s, i) => {
+      s.classList.toggle("active", i < rating);
     });
   }
 });
 
-stars.forEach(star => {
-  star.addEventListener('mouseover', () => {
-    resetStars();
-    highlightStars(star.dataset.value);
+
+// ===========================================
+// Dish of the Day
+// ===========================================
+
+const btn = document.getElementById("getMeal");
+const mealContainer = document.getElementById("meal");
+
+// Guard: only attach if both elements exist on the page
+if (btn && mealContainer) {
+  btn.addEventListener("click", getMeal);
+}
+
+function getMeal() {
+  fetch("https://www.themealdb.com/api/json/v1/1/random.php")
+    .then(res => res.json())
+    .then(data => {
+      const meal = data.meals[0];
+      const ingredients = [];
+
+      for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+        if (ingredient && ingredient.trim()) {
+          ingredients.push(`<li>${ingredient} — ${measure}</li>`);
+        }
+      }
+
+      mealContainer.innerHTML = `
+        <h2>${meal.strMeal}</h2>
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+        <p><strong>Category:</strong> ${meal.strCategory}</p>
+        <p><strong>Area:</strong> ${meal.strArea}</p>
+        <h3>Ingredients:</h3>
+        <ul>${ingredients.join('')}</ul>
+        <h3>Instructions:</h3>
+        <p>${meal.strInstructions}</p>
+        ${meal.strYoutube ? `<a href="${meal.strYoutube}" target="_blank">▶️ Watch on YouTube</a>` : ""}
+      `;
+
+      // Анимация появления
+      mealContainer.classList.remove("show");
+      setTimeout(() => mealContainer.classList.add("show"), 50);
+    })
+    .catch(err => {
+      mealContainer.innerHTML = `<p style="color:red;">Error loading meal 😢</p>`;
+      console.error(err);
+    });
+}
+
+
+
+
+
+// ==============================
+//  Authentication Popup Form
+// ==============================
+const authOverlay = document.getElementById("authOverlay");
+const authBtn = document.getElementById("authBtn");
+const authClose = document.getElementById("authClose");
+
+const authChoice = document.getElementById("authChoice");
+const signUpForm = document.getElementById("signUpForm");
+const signInForm = document.getElementById("signInForm");
+
+const showSignUp = document.getElementById("showSignUp");
+const showSignIn = document.getElementById("showSignIn");
+
+// Guard: only set up auth popup behavior if the required elements exist
+if (authOverlay && authBtn && authClose && authChoice && signUpForm && signInForm && showSignUp && showSignIn) {
+
+  // Открытие popup
+  authBtn.addEventListener("click", () => {
+    authOverlay.style.display = "flex";
+    authChoice.classList.remove("d-none");
+    signUpForm.classList.add("d-none");
+    signInForm.classList.add("d-none");
   });
 
-  star.addEventListener('mouseout', () => {
-    resetStars();
-    if (selectedRating > 0) highlightStars(selectedRating);
+  // Закрытие popup
+  authClose.addEventListener("click", () => {
+    authOverlay.style.display = "none";
   });
 
-  star.addEventListener('click', () => {
-    selectedRating = star.dataset.value;
-    ratingText.textContent = `You rated ${selectedRating} out of 5 ⭐`;
-    resetStars();
-    highlightStars(selectedRating);
+  // Закрытие по клику на overlay
+  authOverlay.addEventListener("click", (e) => {
+    if (e.target === authOverlay) {
+      authOverlay.style.display = "none";
+    }
   });
+
+  // Переход к формам
+  showSignUp.addEventListener("click", () => {
+    authChoice.classList.add("d-none");
+    signUpForm.classList.remove("d-none");
+  });
+
+  showSignIn.addEventListener("click", () => {
+    authChoice.classList.add("d-none");
+    signInForm.classList.remove("d-none");
+  });
+}
+
+// ==============================
+//  Sign Up
+// ==============================
+signUpForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const phone = document.getElementById("signupPhone").value.trim();
+  const password = document.getElementById("signupPassword").value.trim();
+
+  if (name && email && phone && password.length >= 6) {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    if (users.some(u => u.email === email)) {
+      alert("User already exists");
+      return;
+    }
+    const newUser = { name, email, phone, password };
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("currentUser", JSON.stringify(newUser));
+    authOverlay.style.display = "none";
+    window.location.href = "profile.html";
+  } else {
+    alert("Please fill all fields and use password >= 6 characters");
+  }
 });
 
-function highlightStars(rating) {
-  stars.forEach(s => {
-    if (s.dataset.value <= rating) s.classList.add('selected');
-  });
-}
+// ==============================
+//  Sign In
+// ==============================
+signInForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-function resetStars() {
-  stars.forEach(s => s.classList.remove('selected'));
-}
+  const email = document.getElementById("signinEmail").value.trim();
+  const password = document.getElementById("signinPassword").value.trim();
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const user = users.find(u => u.email === email && u.password === password);
+
+  if (user) {
+    localStorage.setItem("currentUser", JSON.stringify(user));
+    authOverlay.style.display = "none";
+    window.location.href = "profile.html";
+  } else {
+    alert("Invalid email or password");
+  }
+});

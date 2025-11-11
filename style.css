@@ -121,6 +121,17 @@ header {
   border-radius: 50%;
 }
 
+.navbar-nav-custom .nav-link {
+  font-size: 16px;
+}
+
+/* Меньший размер на мобильных устройствах */
+@media (max-width: 576px) {
+  .navbar-nav-custom .nav-link {
+    font-size: 10px;
+  }
+}
+
 /* =========================================
    3. SECTIONS AND CONTENT
 ========================================= */
@@ -867,6 +878,7 @@ img.lazy.loaded {
 ========================================= */
 .rating-container {
   font-family: "Times New Roman", serif;
+  text-align: center;
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 1.2s ease, transform 1.2s ease;
@@ -886,26 +898,17 @@ img.lazy.loaded {
   color: #ccc;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
-  opacity: 0;
-  transform: scale(0.8);
 }
 
-.star.visible {
-  opacity: 1;
-  transform: scale(1);
-  transition: all 0.6s ease;
+.star.active {
+  color: gold;
 }
 
-.star:hover,
-.star.hovered {
+.star:hover {
   color: gold;
   transform: scale(1.3);
 }
 
-.star.selected {
-  color: gold;
-  transform: scale(1.1);
-}
 
 /* =========================================
    STATISTICS SECTION
@@ -1110,6 +1113,15 @@ body.dark-mode button:hover {
 .dark-mode .highlight {
   background-color: rgb(180, 150, 60);
 }
+
+.dark-mode #random-meal-page {
+  background-color: #2e1d12;
+  color: #ffcb7f;
+}
+
+.dark-mode #random-meal-page .meal {
+  background-color: #784f32;
+}
 /* =========================================
    Search
 ========================================= */
@@ -1142,4 +1154,131 @@ body.dark-mode button:hover {
 
 body.dark-mode #scrollProgress {
   background: linear-gradient(to right, #ffcb7f, #b87333);
+}
+
+
+/* Всё стилизуется только внутри #random-meal-page */
+#random-meal-page {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #fafafa;
+  color: #b87333;
+  padding: 20px;
+}
+
+#random-meal-page h1 {
+  color: #f08080;
+}
+
+#random-meal-page button {
+  padding: 10px 20px;
+  background-color: #ffb6b9;
+  color: rgb(177, 111, 111);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+#random-meal-page button:hover {
+  background-color: #BEB9C9;
+}
+
+#random-meal-page .meal {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease-in-out;
+}
+
+#random-meal-page .meal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#random-meal-page img {
+  max-width: 350px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+#random-meal-page ul {
+  text-align: left;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+
+
+/* ===========================
+   Auth popup styles
+=========================== */
+.auth-popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.auth-popup-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  position: relative;
+  animation: popupFade 0.3s ease;
+}
+
+@keyframes popupFade {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.auth-popup-box .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.auth-popup-box .close-btn:hover {
+  color: #db9898;
+}
+
+.auth-btn {
+  background-color: #f08080;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.auth-btn:hover {
+  background-color: #db9898;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }

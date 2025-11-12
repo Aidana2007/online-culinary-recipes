@@ -299,6 +299,12 @@ section {
 .cooking-instructions li {
   margin-bottom: 10px;
 }
+.profile-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
 
 /* =========================================
    5. FORMS AND BUTTONS
@@ -452,10 +458,63 @@ img.lazy.loaded {
 /* =========================================
    RESPONSIVE DESIGN
 ========================================= */
+@media (max-width: 1920px) and (min-width: 1441px) {
+  .header-section h1 {
+    font-size: 24px;
+    margin: 0 30px;
+    left: 16%;
+  }
+  
+  .header-section {
+    padding: 20px 40px;
+    gap: 30px;
+  }
+  
+  .logo {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .navbar-nav {
+    gap: 15px;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 16px;
+    padding: 7px 10px;
+  }
+}
+@media (max-width: 1440px) and (min-width: 1025px) {
+  .header-section h1 {
+    font-size: 22px;
+    margin: 0 25px;
+    left: 18%;
+  }
+  
+  .header-section {
+    padding: 15px 30px;
+    gap: 25px;
+  }
+  
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .navbar-nav {
+    gap: 10px;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 15px;
+    padding: 6px 9px;
+  }
+}
 @media (max-width: 1024px) and (min-width: 769px) {
   .header-section h1 {
     font-size: 20px;
     margin: 0 20px;
+    left: 20%;
   }
   
   .header-section {
@@ -657,6 +716,10 @@ img.lazy.loaded {
 
   .recipe-card img {
     width: 100%;
+    height: 150px;
+  }
+  #random-meal-page img {
+    width: 150px;
     height: 150px;
   }
 
@@ -968,7 +1031,7 @@ body.dark-mode footer {
 }
 
 body.dark-mode .nav-link {
-  color: #f6e6c3 !important;
+  color: #f6e6c3;
 }
 
 body.dark-mode .nav-link:hover {
@@ -978,7 +1041,9 @@ body.dark-mode .nav-link:hover {
 body.dark-mode p {
   color: #f6e6c3;
 }
-
+body.dark-mode a {
+  color: #ffd477;
+}
 body.dark-mode #stats {
   background-color: #3b2314;
 }
@@ -1122,6 +1187,14 @@ body.dark-mode button:hover {
 .dark-mode #random-meal-page .meal {
   background-color: #784f32;
 }
+.dark-mode #signInForm, .dark-mode #signUpForm {
+  background-color: #69452e;
+  color: #f6e6c3;
+}
+.dark-mode .profile-card {
+  background-color: #5a3921;
+  color: #f6e6c3;
+}
 /* =========================================
    Search
 ========================================= */
@@ -1173,7 +1246,7 @@ body.dark-mode #scrollProgress {
 #random-meal-page button {
   padding: 10px 20px;
   background-color: #ffb6b9;
-  color: rgb(177, 111, 111);
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 8px;
   cursor: pointer;

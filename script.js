@@ -186,6 +186,8 @@ $(document).ready(function () {
     );
   });
 
+
+
   // ----------------------------
   // Loading Spinner on Submit
   // ----------------------------
@@ -333,19 +335,24 @@ $(document).ready(function () {
   // DARK/LIGHT MODE TOGGLE
   // ========================
   const toggleBtn = document.getElementById("themeToggle");
-  const icon = toggleBtn.querySelector("i");
   const body = document.body;
 
-  if (localStorage.getItem("theme") === "dark") {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
     body.classList.add("dark-mode");
+    toggleBtn.textContent = "Light Mode";
+  } else {
+    toggleBtn.textContent = "Dark Mode";
   }
 
   toggleBtn.addEventListener("click", () => {
     body.classList.toggle("dark-mode");
 
     if (body.classList.contains("dark-mode")) {
+      toggleBtn.textContent = "Light Mode";
       localStorage.setItem("theme", "dark");
     } else {
+      toggleBtn.textContent = "Dark Mode";
       localStorage.setItem("theme", "light");
     }
   });
@@ -637,48 +644,52 @@ if (authOverlay && authBtn && authClose && authChoice && signUpForm && signInFor
 // ==============================
 //  Sign Up
 // ==============================
-signUpForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+if (signUpForm) {
+  signUpForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  const name = document.getElementById("signupName").value.trim();
-  const email = document.getElementById("signupEmail").value.trim();
-  const phone = document.getElementById("signupPhone").value.trim();
-  const password = document.getElementById("signupPassword").value.trim();
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const phone = document.getElementById("signupPhone").value.trim();
+    const password = document.getElementById("signupPassword").value.trim();
 
-  if (name && email && phone && password.length >= 6) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    if (users.some(u => u.email === email)) {
-      alert("User already exists");
-      return;
+    if (name && email && phone && password.length >= 6) {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      if (users.some(u => u.email === email)) {
+        alert("User already exists");
+        return;
+      }
+      const newUser = { name, email, phone, password };
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
+      authOverlay.style.display = "none";
+      window.location.href = "profile.html";
+    } else {
+      alert("Please fill all fields and use password >= 6 characters");
     }
-    const newUser = { name, email, phone, password };
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-    authOverlay.style.display = "none";
-    window.location.href = "profile.html";
-  } else {
-    alert("Please fill all fields and use password >= 6 characters");
-  }
-});
+  });
+}
 
 // ==============================
 //  Sign In
 // ==============================
-signInForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+if (signInForm) {
+  signInForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  const email = document.getElementById("signinEmail").value.trim();
-  const password = document.getElementById("signinPassword").value.trim();
+    const email = document.getElementById("signinEmail").value.trim();
+    const password = document.getElementById("signinPassword").value.trim();
 
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-  const user = users.find(u => u.email === email && u.password === password);
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(u => u.email === email && u.password === password);
 
-  if (user) {
-    localStorage.setItem("currentUser", JSON.stringify(user));
-    authOverlay.style.display = "none";
-    window.location.href = "profile.html";
-  } else {
-    alert("Invalid email or password");
-  }
-});
+    if (user) {
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      authOverlay.style.display = "none";
+      window.location.href = "profile.html";
+    } else {
+      alert("Invalid email or password");
+    }
+  });
+}

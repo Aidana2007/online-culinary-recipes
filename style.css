@@ -1237,6 +1237,7 @@ body.dark-mode #scrollProgress {
   background: #fafafa;
   color: #b87333;
   padding: 20px;
+  font-size: 18px;
 }
 
 #random-meal-page h1 {
